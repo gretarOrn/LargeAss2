@@ -35,7 +35,7 @@ $(function (){
 	$('#my-canvas').on('mousedown', function(mouseEvent){
 		switch(drawio.selectedShape){
 			case drawio.availableShapes.RECTANGLE:
-				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0);
+				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0, false);
 				break;
 			case drawio.availableShapes.LINE:
 				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 });

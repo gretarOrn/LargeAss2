@@ -11,18 +11,18 @@ Shape.prototype.move = function() {
 
 Shape.prototype.resize = function() {};
 
-function Rectangle(position, width, height){
+function Rectangle(position, width, height, fill){
 	Shape.call(this, position);
 	this.width = width;
 	this.height = height;
+	this.fill = fill;
 };
 
 Rectangle.prototype = Object.create(Shape.prototype);
 Rectangle.prototype.constructor = Rectangle;
 
-Rectangle.prototype.render = function(fill) {
-	fill = true;
-	if(fill) drawio.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+Rectangle.prototype.render = function() {
+	if(this.fill) drawio.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	else drawio.ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
 };
 
