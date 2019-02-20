@@ -10,7 +10,8 @@ window.drawio = {
 	selectedElement: null,
 	availableShapes: {
 		RECTANGLE: 'rectangle',
-		LINE: 'line'
+		LINE: 'line',
+		CIRCLE: 'circle'
 	}
 };
 
@@ -39,6 +40,8 @@ $(function (){
 			case drawio.availableShapes.LINE:
 				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 })
 				break;
+			case drawio.availableShapes.CIRCLE:
+				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0})
 		}
 	});
 
@@ -51,7 +54,9 @@ $(function (){
 	});
 
 	$('#my-canvas').on('mouseup', function (){
-		drawio.shapes.push(drawio.selectedElement);
-		drawio.selectedElement = null;
+		if(drawio.selectedElement != null){
+			drawio.shapes.push(drawio.selectedElement);
+			drawio.selectedElement = null;
+		}
 	});
 });

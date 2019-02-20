@@ -11,6 +11,8 @@ Shape.prototype.move = function() {
 
 Shape.prototype.resize = function() {};
 
+ // ----------- Rectangle
+
 function Rectangle(position, width, height){
 	Shape.call(this, position);
 	this.width = width;
@@ -31,6 +33,8 @@ Rectangle.prototype.resize = function(x, y) {
 	this.height = y - this.position.y;
 };
 
+// -------- line
+
 function Line(position, end_position){
 	Shape.call(this, position);
 	this.end_position = {x: end_position.x , y: end_position.y };
@@ -49,4 +53,25 @@ Line.prototype.render = function() {
 Line.prototype.resize = function(x, y) {
 	this.end_position.x = x - this.position.x;
 	this.end_position.y = y - this.position.y;
+};
+
+ // ----------- circle
+
+function Circle(position, end_position){
+	Shape.call(this, position);
+	this.end_position = {x: end_position.x, y: end_position.y };
+};
+
+Circle.prototype = Object.create(Shape.prototype);
+Circle.prototype.constructor = Circle;
+
+Circle.prototype.render = function(fills) {
+	this.fills = true;
+	drawio.ctx.arc(this.position.x, this.position.y, Math.abs(this.end_position.x - this.position.x), 0, Math.PI * 4);
+	if(this.fills) {drawio.ctx.fill(); drawio.ctx.closePath();} else {drawio.ctx.stroke(); drawio.ctx.closePath();}
+};
+
+Circle.prototype.resize = function(x, y) {
+	this.end_position.x = x;
+	this.end_position.y = y;
 };
