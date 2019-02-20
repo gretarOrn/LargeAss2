@@ -12,7 +12,8 @@ window.drawio = {
 		RECTANGLE: 'rectangle',
 		LINE: 'line',
 		PEN: 'pen',
-		TEXT: 'text'
+		TEXT: 'text',
+		CIRCLE: 'circle'
 	}
 };
 
@@ -47,6 +48,9 @@ $(function (){
 			case drawio.availableShapes.TEXT:
 				var txt = $('#text-input').val();
 				if(txt) drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, "30px", "Arial", true);
+				break;
+			case drawio.availableShapes.CIRCLE:
+				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0})
 				break;
 		}
 	});
