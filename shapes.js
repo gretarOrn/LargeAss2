@@ -75,3 +75,28 @@ Pen.prototype.render = function() {
 Pen.prototype.resize = function(x, y) {
 	this.penPoints.push({ x: x , y: y });
 };
+
+function Text(position, text, size, font, fill){
+	Shape.call(this, position);
+	this.position = position;
+	this.text = text;
+	this.size = size;
+	this.font = font;
+	this.fill = fill;
+};
+
+Text.prototype = Object.create(Shape.prototype);
+Text.prototype.constructor = Text;
+
+Text.prototype.render = function() {
+	drawio.ctx.beginPath();
+	drawio.ctx.font = this.size + " " + this.font;
+	if(this.fill) drawio.ctx.fillText(this.text, this.position.x, this.position.y);
+	else drawio.ctx.strokeText(this.text, this.position.x, this.position.y);
+	drawio.ctx.closePath();
+};
+
+Text.prototype.resize = function(x, y) {
+	this.position.x = x;
+	this.position.y = y;
+};

@@ -4,14 +4,15 @@
 
 window.drawio = {
 	shapes: [],
-	selectedShape: 'rectangle',
+	selectedShape: 'pen',
 	canvas: document.getElementById('my-canvas'),
 	ctx: document.getElementById('my-canvas').getContext('2d'),
 	selectedElement: null,
 	availableShapes: {
 		RECTANGLE: 'rectangle',
 		LINE: 'line',
-		PEN: 'pen'
+		PEN: 'pen',
+		TEXT: 'text'
 	}
 };
 
@@ -42,6 +43,10 @@ $(function (){
 				break;
 			case drawio.availableShapes.PEN:
 				drawio.selectedElement = new Pen({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, null);
+				break;
+			case drawio.availableShapes.TEXT:
+				var txt = $('#text-input').val();
+				if(txt) drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, "30px", "Arial", true);
 				break;
 		}
 	});
