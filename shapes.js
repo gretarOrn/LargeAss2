@@ -50,3 +50,28 @@ Line.prototype.resize = function(x, y) {
 	this.end_position.x = x - this.position.x;
 	this.end_position.y = y - this.position.y;
 };
+function Pen(position, penPoints){
+	Shape.call(this, position);
+	if(penPoints){
+		this.penPoints = penPoints;
+	}
+	else{
+		this.penPoints = [];
+	}
+};
+
+Pen.prototype = Object.create(Shape.prototype);
+Pen.prototype.constructor = Pen;
+
+Pen.prototype.render = function() {
+	drawio.ctx.beginPath();
+	for(var i = 0; i < this.penPoints.length; i++){
+		drawio.ctx.lineTo(this.penPoints[i].x, this.penPoints[i].y);
+	}
+	drawio.ctx.stroke();
+	drawio.ctx.closePath();
+};
+
+Pen.prototype.resize = function(x, y) {
+	this.penPoints.push({ x: x , y: y });
+};
