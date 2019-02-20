@@ -11,7 +11,8 @@ window.drawio = {
 	availableShapes: {
 		RECTANGLE: 'rectangle',
 		LINE: 'line',
-		CIRCLE: 'circle'
+		CIRCLE: 'circle',
+		PEN: 'pen'
 	}
 };
 
@@ -35,10 +36,13 @@ $(function (){
 	$('#my-canvas').on('mousedown', function(mouseEvent){
 		switch(drawio.selectedShape){
 			case drawio.availableShapes.RECTANGLE:
-				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0);
+				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0, false);
 				break;
 			case drawio.availableShapes.LINE:
-				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 })
+				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 });
+				break;
+			case drawio.availableShapes.PEN:
+				drawio.selectedElement = new Pen({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, null);
 				break;
 			case drawio.availableShapes.CIRCLE:
 				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0})

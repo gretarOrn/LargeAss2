@@ -11,20 +11,24 @@ Shape.prototype.move = function() {
 
 Shape.prototype.resize = function() {};
 
+<<<<<<< HEAD
  // ----------- Rectangle
 
 function Rectangle(position, width, height){
+=======
+function Rectangle(position, width, height, fill){
+>>>>>>> c6e854322799720a2f0f1135c55f4de66769b4a0
 	Shape.call(this, position);
 	this.width = width;
 	this.height = height;
+	this.fill = fill;
 };
 
 Rectangle.prototype = Object.create(Shape.prototype);
 Rectangle.prototype.constructor = Rectangle;
 
-Rectangle.prototype.render = function(fill) {
-	fill = true;
-	if(fill) drawio.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+Rectangle.prototype.render = function() {
+	if(this.fill) drawio.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	else drawio.ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
 };
 
@@ -55,6 +59,7 @@ Line.prototype.resize = function(x, y) {
 	this.end_position.y = y - this.position.y;
 };
 
+
  // ----------- circle
 
 function Circle(position, end_position){
@@ -74,4 +79,29 @@ Circle.prototype.render = function(fills) {
 Circle.prototype.resize = function(x, y) {
 	this.end_position.x = x;
 	this.end_position.y = y;
+
+function Pen(position, penPoints){
+	Shape.call(this, position);
+	if(penPoints){
+		this.penPoints = penPoints;
+	}
+	else{
+		this.penPoints = [];
+	}
+};
+
+Pen.prototype = Object.create(Shape.prototype);
+Pen.prototype.constructor = Pen;
+
+Pen.prototype.render = function() {
+	drawio.ctx.beginPath();
+	for(var i = 0; i < this.penPoints.length; i++){
+		drawio.ctx.lineTo(this.penPoints[i].x, this.penPoints[i].y);
+	}
+	drawio.ctx.stroke();
+	drawio.ctx.closePath();
+};
+
+Pen.prototype.resize = function(x, y) {
+	this.penPoints.push({ x: x , y: y });
 };
