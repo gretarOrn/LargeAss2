@@ -11,8 +11,9 @@ window.drawio = {
 	availableShapes: {
 		RECTANGLE: 'rectangle',
 		LINE: 'line',
-		CIRCLE: 'circle',
-		PEN: 'pen'
+		PEN: 'pen',
+		CIRCLE: 'circle'
+		
 	}
 };
 

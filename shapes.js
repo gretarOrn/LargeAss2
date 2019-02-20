@@ -11,13 +11,10 @@ Shape.prototype.move = function() {
 
 Shape.prototype.resize = function() {};
 
-<<<<<<< HEAD
  // ----------- Rectangle
 
-function Rectangle(position, width, height){
-=======
 function Rectangle(position, width, height, fill){
->>>>>>> c6e854322799720a2f0f1135c55f4de66769b4a0
+
 	Shape.call(this, position);
 	this.width = width;
 	this.height = height;
@@ -62,23 +59,26 @@ Line.prototype.resize = function(x, y) {
 
  // ----------- circle
 
-function Circle(position, end_position){
+function Circle(position, end_position, fills){
 	Shape.call(this, position);
 	this.end_position = {x: end_position.x, y: end_position.y };
+	this.fills = fills;
 };
 
 Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
 
 Circle.prototype.render = function(fills) {
+	drawio.ctx.beginPath();
 	this.fills = true;
 	drawio.ctx.arc(this.position.x, this.position.y, Math.abs(this.end_position.x - this.position.x), 0, Math.PI * 4);
-	if(this.fills) {drawio.ctx.fill(); drawio.ctx.closePath();} else {drawio.ctx.stroke(); drawio.ctx.closePath();}
+	if(this.fills) {drawio.ctx.fill();} else {drawio.ctx.stroke(); drawio.ctx.closePath();}
 };
 
 Circle.prototype.resize = function(x, y) {
 	this.end_position.x = x;
 	this.end_position.y = y;
+};
 
 function Pen(position, penPoints){
 	Shape.call(this, position);
