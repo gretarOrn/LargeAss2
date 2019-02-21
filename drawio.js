@@ -4,6 +4,7 @@
 
 window.drawio = {
 	shapes: [],
+	undoStack: [],
 	selectedShape: 'pen',
 	canvas: document.getElementById('my-canvas'),
 	ctx: document.getElementById('my-canvas').getContext('2d'),
@@ -28,6 +29,22 @@ $(function (){
 		}
 	};
 
+	$('.undo').on('click', function(){
+		if(drawio.shapes.length > 0){
+			drawio.undoStack.push(drawio.shapes.pop());
+			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
+			drawCanvas();
+		}
+	});
+	$('.redo').on('click', function(){
+		if(drawio.undoStack.length > 0){
+			drawio.shapes.push(drawio.undoStack.pop());
+			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
+			drawCanvas();
+		}
+		
+	});
+
 	$('.icon').on('click', function () {
 		$('.icon').removeClass('selected');
 		$(this).addClass('selected');
@@ -50,13 +67,13 @@ $(function (){
 				if(txt) drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, "30px", "Arial", true);
 				break;
 			case drawio.availableShapes.CIRCLE:
-				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0})
+				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0}, false)
 				break;
 		}
 	});
 
 	$('#my-canvas').on('mousemove', function(mouseEvent){
-		if(drawio.selectedElement){
+		if(drawio.selectedElement != null){
 			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
 			drawio.selectedElement.resize(mouseEvent.offsetX, mouseEvent.offsetY);
 			drawCanvas();	
