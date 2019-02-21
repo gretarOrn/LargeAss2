@@ -27,11 +27,11 @@ Rectangle.prototype = Object.create(Shape.prototype);
 Rectangle.prototype.constructor = Rectangle;
 
 Rectangle.prototype.render = function() {
-	if(this.fill) {
+	if(this.fill){
 		drawio.ctx.fillStyle = this.color;
 		drawio.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
-	else {
+	else{
 		drawio.ctx.strokeStyle = this.color;
 		drawio.ctx.lineWidth = this.linewidth;
 		drawio.ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
@@ -86,11 +86,11 @@ Circle.prototype.constructor = Circle;
 Circle.prototype.render = function() {
 	drawio.ctx.beginPath();
 	drawio.ctx.arc(this.position.x, this.position.y, Math.abs(this.end_position.x - this.position.x), 0, Math.PI * 4);
-	if(this.fill) {
+	if(this.fill){
 		drawio.ctx.fillStyle = this.color;
 		drawio.ctx.fill();
 	} 
-	else {
+	else{
 		drawio.ctx.strokeStyle = this.color;
 		drawio.ctx.lineWidth = this.linewidth;
 		drawio.ctx.stroke(); 
@@ -149,11 +149,11 @@ Text.prototype.constructor = Text;
 Text.prototype.render = function() {
 	drawio.ctx.beginPath();
 	drawio.ctx.font = this.size + " " + this.font;
-	if(this.fill) {
+	if(this.fill){
 		drawio.ctx.fillStyle = this.color
 		drawio.ctx.fillText(this.text, this.position.x, this.position.y);
 	}
-	else {
+	else{
 		drawio.ctx.strokeStyle = this.color
 		drawio.ctx.strokeText(this.text, this.position.x, this.position.y);
 	}
