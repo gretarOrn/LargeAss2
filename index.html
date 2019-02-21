@@ -4,74 +4,26 @@
 	<meta charset="utf-8">
 	<title>draw bæó</title>
 	<style media="screen">
-		body {
-			background-color: navy;
-			padding: 0;
-			margin: 0;
-		}
-		.container {
-			padding: 20px;
-		}
-		#my-canvas {
-			background-color: white;
-			box-shadow: 1px 1px 1px;
-			margin: 0 auto;
-			display: block;
-		}
-		.icon {
-			position: relative;
-			display: inline-block;
-			font-size: 4em;
-			float: right;
-			width: 100px;
-			top: 15px;
-			transition: color .5s;
-		}
-		.icon:hover {
-			color: orange;
-			cursor: pointer;
-		}
-		.icon.selected {
-			color: yellow;
-		}
-		.navbar {
-			height: 100px;
-			background-color: red;
-			border-bottom: solid 6px black;
-		}
-		.saved {
-			float: right;
-			display: block;
-			position: relative;
-			font-size: 40px;
-			margin-top: 90px;
-		}
-		.save {
-			overflow: hidden;
-		}
-		.saved {
-			float: right;
-		}
-
 	</style>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 </head>
 <body>
 	<nav class="navbar">
+		<div class="icon selected" data-shape="pen">
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</div>
+		<div class="icon" data-shape="line">
+			<i class="fa fa-minus" aria-hidden="true"></i>
+		</div>
+		<div class="icon" data-shape="text">
+			<i class="fa fa-font" aria-hidden="true"></i>
+		</div>
 		<div class="icon" data-shape="rectangle">
 			<i class="fa fa-square-o" aria-hidden="true"></i>
 		</div>
 		<div class="icon" data-shape="circle">
 			<i class="fa fa-circle-o" aria-hidden="true"></i>
-		</div>
-		<div class="icon selected" data-shape="pen">
-			<i class="fa fa-pencil" aria-hidden="true"></i>
-		</div>
-		<div class="icon" data-shape="text">
-			<i class="fa fa-font" aria-hidden="true"></i>
-		</div>
-		<div class="icon" data-shape="line">
-			<i class="fa fa-minus" aria-hidden="true"></i>
 		</div>
 		<div class="icon undo" data-shape="undo">
 			<i class="fa fa-rotate-left" aria-hidden="true"></i>
@@ -85,22 +37,89 @@
 		<!-- delete fa-trash -->
 
 	</nav>
-	<div class="icon save" data-shape="save">
+	<div class="right-side">
+		<div class="icon save" data-shape="save">
 			<i class="fa fa-floppy-o" aria-hidden="true"></i>
 		</div>
-		<!-- load  fa-folder-open -->
-		<!--<div class="icon load" data-shape="load">
-			<i class="fa fa-folder-open-o" aria-hidden="true"></i>
-		</div>-->
+		<p>Saved Drawings:</p>
 		<div class="saved">
 		</div>
-		
+	</div>
+	
+	<div id="text-in">
+		<p>Text input:</p>
+		<input type="text" id="text-input">
+	</div>
+	<div class="options">
+		<p>Fill:</p>
+		<select id="fillchoice">
+			<option value="true">Fill</option>
+			<option value="false" selected="selected">Stroke</option>
+		</select>
+		<p>Line Width:</p>
+		<select id="linewidth">
+			<option value="1" selected="selected">1</option>
+			<option value="2">2</option>
+			<option value="4">4</option>
+			<option value="6">6</option>
+			<option value="8">8</option>
+			<option value="10">10</option>
+			<option value="12">12</option>
+		</select>
+		<p>Font Size:</p>
+		<select id="fontsize">
+			<option value="8px">8</option>
+			<option value="9px">9</option>
+			<option value="10px">10</option>
+			<option value="11px" selected="selected">11</option>
+			<option value="12px">12</option>
+			<option value="14px">14</option>
+			<option value="16px">16</option>
+			<option value="18px">18</option>
+			<option value="20px">20</option>
+			<option value="22px">22</option>
+			<option value="24px">24</option>
+			<option value="26px">26</option>
+			<option value="28px">28</option>
+			<option value="36px">36</option>
+			<option value="48px">48</option>
+			<option value="72px">72</option>
+		</select>
+		<p>Font:</p>
+		<select id="font">
+			<option value="Arial">Arial</option>
+			<option value="Arial Black">Arial Black</option>
+			<option value="Algerian">Algerian</option>
+			<option value="Bauhaus">Bauhaus</option>
+			<option value="Broadway">Broadway</option>
+			<option value="Times New Roman">Times New Roman</option>
+			<option value="Calibri" selected="selected">Calibri</option>
+		</select>
+		<p>Color:</p>
+		<select id="color">
+			<option value="maroon">Maroon</option>
+			<option value="red">Red</option>
+			<option value="orange">Orange</option>
+			<option value="yellow">Yellow</option>
+			<option value="olive green">Olive Green</option>
+			<option value="purple">Purple</option>
+			<option value="fuchsia">Fuchsia</option>
+			<option value="lime">Lime</option>
+			<option value="teal">Teal</option>
+			<option value="aqua">Aqua</option>
+			<option value="blue">Blue</option>
+			<option value="navy">Navy</option>
+			<option value="black" selected="selected">Black</option>
+			<option value="gray">Gray</option>
+			<option value="silver">Silver</option>
+			<option value="white">White</option>
+		</select>
+	</div>
 	<div class="container">
 		<canvas id="my-canvas" width="800" height="600">
 			
 		</canvas>
 	</div>
-	<input type="text" id="text-input">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" charset="utf-8"></script>
 	<script src="shapes.js" charset="utf-8"></script>
 	<script src="drawio.js" charset="utf-8"></script>

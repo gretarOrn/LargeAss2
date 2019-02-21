@@ -29,17 +29,39 @@ $(function (){
 		}
 	};
 	function loadDrawing(){
-		console.log(drawio.shapes);
 		drawio.shapes = [];
 		var items = JSON.parse(myStorage.getItem($(this).text()));
 		for(var i = 0; i < items.length; i++){
-			drawio.shapes.push(items[i]);
+			switch(items[i].form){
+				case drawio.availableShapes.RECTANGLE:
+					drawio.shapes.push(new Rectangle(items[i].position , items[i].width, items[i].height, items[i].fill, items[i].linewidth, items[i].color));
+					break;
+				case drawio.availableShapes.LINE:
+					drawio.shapes.push(new Line(items[i].position, items[i].end_position, items[i].linewidth, items[i].color));
+					break;
+				case drawio.availableShapes.CIRCLE:
+					drawio.shapes.push(new Cirlcle(items[i].position, items[i].end_position, items[i].fill, items[i].linewidth, items[i].color));
+					break;
+				case drawio.availableShapes.TEXT:
+					drawio.shapes.push(new Text(items[i].position, items[i].text, items[i].size, items[i].font, items[i].fill, items[i].color));
+					break;
+				case drawio.availableShapes.PEN:
+					drawio.shapes.push(new Pen(items[i].position, items[i].penPoints, items[i].linewidth, items[i].color));
+					break;
+			}
 		}
-		console.log(drawio.shapes);
 		drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
 		drawCanvas();
 	}
-
+	function loadStorage(){
+		for(var i = 0; i < myStorage.length; i++){
+			var name = myStorage.key(i);
+			var item = $("<p class=\"save-file\">" + name + "</p>");
+			item.on('click', loadDrawing);
+			$('.saved').append(item);
+		}
+	}
+	loadStorage();
 	$('.undo').on('click', function(){
 		if(drawio.shapes.length > 0){
 			drawio.undoStack.push(drawio.shapes.pop());
@@ -56,11 +78,9 @@ $(function (){
 	});
 
 	$('.save').on('click', function(){
-		console.log(drawio.shapes);
-		console.log("drawing " + myStorage.length );
 		var size = myStorage.length;
 		localStorage.setItem("drawing " + size , JSON.stringify(drawio.shapes));
-		var item = $("<a>drawing " + size + "</a>");
+		var item = $("<p class=\"save-file\">drawing " + size + "</p>");
 		item.on('click', loadDrawing);
 		$('.saved').append(item);
 	});
@@ -71,28 +91,42 @@ $(function (){
 	});
 
 	$('#my-canvas').on('mousedown', function(mouseEvent){
+		var fill;
+		var fontsize = $('#fontsize').val();
+		var linewidth = +$('#linewidth').val();
+		var font = $('#font').val();
+		var color = $('#color').val();
+		var txt = $('#text-input').val();
+		if($('#fillchoice').val() == "true"){
+			fill = true;
+		}
+		else{
+			fill = false;
+		}
 		switch(drawio.selectedShape){
 			case drawio.availableShapes.RECTANGLE:
-				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0, false);
+				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0, fill, linewidth, color);
 				break;
 			case drawio.availableShapes.LINE:
-				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 });
+				drawio.selectedElement = new Line({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0 }, linewidth, color);
 				break;
 			case drawio.availableShapes.PEN:
-				drawio.selectedElement = new Pen({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, null);
+				drawio.selectedElement = new Pen({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, null, linewidth, color);
 				break;
 			case drawio.availableShapes.TEXT:
-				var txt = $('#text-input').val();
-				if(txt) drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, "30px", "Arial", true);
+				if(txt){
+					drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, fontsize, font, fill, color);
+					drawCanvas();
+				}
 				break;
 			case drawio.availableShapes.CIRCLE:
-				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0}, false)
+				drawio.selectedElement = new Circle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, { x: 0, y: 0}, fill, linewidth, color)
 				break;
 		}
 	});
 
 	$('#my-canvas').on('mousemove', function(mouseEvent){
-		if(drawio.selectedElement != null){
+		if(drawio.selectedElement != null && drawio.selectedElement != drawio.availableShapes.TEXT){
 			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
 			drawio.selectedElement.resize(mouseEvent.offsetX, mouseEvent.offsetY);
 			drawCanvas();	

@@ -1,0 +1,68 @@
+body {
+	background-color: cyan;
+	padding: 0;
+	margin: 0;
+}
+.container {
+	padding: 20px;
+}
+#text-in{
+	padding-left: 20px;
+}
+.options {
+	padding-left: 20px;
+	float: left;
+	display: flex;
+	flex-direction: column;
+}
+.save{
+	align-self: flex-end;
+}
+.right-side{
+	padding-right: 20px;
+	float: right;
+	display: flex;
+	flex-direction: column;
+
+}
+.right-side > p{
+	font-size: 32px;
+}
+#my-canvas {
+	background-color: white;
+	box-shadow: 1px 1px 1px;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.icon {
+	position: relative;
+	display: inline-block;
+	font-size: 4em;
+	float: right;
+	width: 100px;
+	top: 15px;
+	transition: color .5s;
+}
+.icon:hover {
+	color: cyan;
+	cursor: pointer;
+}
+.icon.selected {
+	color: white;
+}
+.navbar {
+	height: 100px;
+	background-color: blue;
+	border-bottom: solid 6px black;
+}
+.saved {
+	float: top;
+	font-size: 40px;
+	margin-top: 90px;
+}
+.save-file{
+	font-size: 20px;
+	display: flex;
+}
