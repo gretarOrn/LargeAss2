@@ -1,4 +1,4 @@
-
+var myStorage = window.localStorage;
 
 
 
@@ -28,6 +28,17 @@ $(function (){
 			drawio.shapes[i].render();
 		}
 	};
+	function loadDrawing(){
+		console.log(drawio.shapes);
+		drawio.shapes = [];
+		var items = JSON.parse(myStorage.getItem($(this).text()));
+		for(var i = 0; i < items.length; i++){
+			drawio.shapes.push(items[i]);
+		}
+		console.log(drawio.shapes);
+		drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
+		drawCanvas();
+	}
 
 	$('.undo').on('click', function(){
 		if(drawio.shapes.length > 0){
@@ -41,10 +52,18 @@ $(function (){
 			drawio.shapes.push(drawio.undoStack.pop());
 			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
 			drawCanvas();
-		}
-		
+		}	
 	});
 
+	$('.save').on('click', function(){
+		console.log(drawio.shapes);
+		console.log("drawing " + myStorage.length );
+		var size = myStorage.length;
+		localStorage.setItem("drawing " + size , JSON.stringify(drawio.shapes));
+		var item = $("<a>drawing " + size + "</a>");
+		item.on('click', loadDrawing);
+		$('.saved').append(item);
+	});
 	$('.icon').on('click', function () {
 		$('.icon').removeClass('selected');
 		$(this).addClass('selected');

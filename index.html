@@ -39,6 +39,19 @@
 			background-color: red;
 			border-bottom: solid 6px black;
 		}
+		.saved {
+			float: right;
+			display: block;
+			position: relative;
+			font-size: 40px;
+			margin-top: 90px;
+		}
+		.save {
+			overflow: hidden;
+		}
+		.saved {
+			float: right;
+		}
 
 	</style>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
@@ -66,8 +79,22 @@
 		<div class="icon redo" data-shape="redo">
 			<i class="fa fa-rotate-right" aria-hidden="true"></i>
 		</div>
+		<!-- save fa-floppy-o -->
+		
+
+		<!-- delete fa-trash -->
 
 	</nav>
+	<div class="icon save" data-shape="save">
+			<i class="fa fa-floppy-o" aria-hidden="true"></i>
+		</div>
+		<!-- load  fa-folder-open -->
+		<!--<div class="icon load" data-shape="load">
+			<i class="fa fa-folder-open-o" aria-hidden="true"></i>
+		</div>-->
+		<div class="saved">
+		</div>
+		
 	<div class="container">
 		<canvas id="my-canvas" width="800" height="600">
 			
