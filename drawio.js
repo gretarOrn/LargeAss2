@@ -6,11 +6,6 @@ window.drawio = {
 	shapes: [],
 	undoStack: [],
 	selectedShape: 'pen',
-	fill: true,
-	linewidth: 10,
-	fontsize: "11px",
-	font: "Calibri",
-	color: "black",
 	canvas: document.getElementById('my-canvas'),
 	ctx: document.getElementById('my-canvas').getContext('2d'),
 	selectedElement: null,
@@ -57,12 +52,18 @@ $(function (){
 	});
 
 	$('#my-canvas').on('mousedown', function(mouseEvent){
-		if($('#fillchoice').val() == "true") fill = true;
-		else fill = false;
-		fontsize = $('#fontsize').val();
-		linewidth = +$('#linewidth').val();
-		font = $('#font').val();
-		color = $('#color').val();
+		var fill;
+		var fontsize = $('#fontsize').val();
+		var linewidth = +$('#linewidth').val();
+		var font = $('#font').val();
+		var color = $('#color').val();
+		var txt = $('#text-input').val();
+		if($('#fillchoice').val() == "true"){
+			fill = true;
+		}
+		else{
+			fill = false;
+		}
 		switch(drawio.selectedShape){
 			case drawio.availableShapes.RECTANGLE:
 				drawio.selectedElement = new Rectangle({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, 0, 0, fill, linewidth, color);
@@ -74,7 +75,6 @@ $(function (){
 				drawio.selectedElement = new Pen({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, null, linewidth, color);
 				break;
 			case drawio.availableShapes.TEXT:
-				var txt = $('#text-input').val();
 				if(txt){
 					drawio.selectedElement = new Text({ x: mouseEvent.offsetX, y: mouseEvent.offsetY }, txt, fontsize, font, fill, color);
 					drawCanvas();
@@ -87,7 +87,7 @@ $(function (){
 	});
 
 	$('#my-canvas').on('mousemove', function(mouseEvent){
-		if (drawio.selectedElement != null && drawio.selectedElement != "text"){
+		if(drawio.selectedElement != null && drawio.selectedElement != drawio.availableShapes.TEXT){
 			drawio.ctx.clearRect(0, 0, drawio.canvas.width, drawio.canvas.height);
 			drawio.selectedElement.resize(mouseEvent.offsetX, mouseEvent.offsetY);
 			drawCanvas();	
